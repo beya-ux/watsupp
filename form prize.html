@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add to List</title>
+  <style>
+    body {
+      font-family: 'Press Start 2P', cursive; /* Use a fun font! */
+      text-align: center;
+      background-color: #f0f0f0; /* Light gray background */
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333; /* Dark gray heading */
+      text-shadow: 2px 2px 4px #888; /* Add a subtle shadow */
+    }
+
+    #item-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    #item-list li {
+      background-color: #fff; /* White list items */
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+
+    #add-item-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    #new-item {
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      flex-grow: 1;
+    }
+
+    #add-item-form button {
+      padding: 8px 15px;
+      background-color: #4CAF50; /* Green */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    }
+
+    #add-item-form button:hover {
+      background-color: #3e8e41; /* Darker green on hover */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* More pronounced shadow on hover */
+    }
+
+    /* Image Styling */
+    img {
+      max-width: 200px; /* Adjust as needed */
+      margin: 10px auto; /* Center images */
+      display: block; /* Ensures images take up full width */
+      border: 2px solid #ccc; /* Add a border */
+      border-radius: 5px; /* Round the corners */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow */
+    }
+
+    /* Paragraph Styling */
+    p {
+      color: #333; /* Dark gray text */
+      font-size: 18px; /* Make the text a bit larger */
+      margin-bottom: 15px; /* Add more space between paragraphs */
+    }
+
+    h {
+      font-size: 24px;
+      color: #ff0000; /* Red text */
+      margin-bottom: 10px;
+    }
+
+    /* Styling for the italicized text */
+    h1 i { /* Target the italicized text within h1 */
+      font-style: italic;
+      color: #800080; /* Purple color */
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Prize Ideas</h1>
+
+  <img src="candy.jpg" alt="Candy prizes for kiddo">
+  <p>Candy prizes for kiddo</p>
+  <img src="toy.jpg" alt="Toy prizes for kiddo">
+  <p>Toy prizes for kiddo</p>
+  <h1><i>Wala nakong maisip suggest na lang kayo hahahahahaha </i></h1>
+  <ul id="item-list">
+  </ul>
+
+  <form id="add-item-form">
+    <input type="text" id="new-item" placeholder="Enter prize idea...">
+    <button type="button" onclick="addItem()">Add</button>
+  </form>
+
+  <script>
+    const itemList = document.getElementById('item-list');
+
+    function addItem() {
+      const newItem = document.getElementById('new-item').value;
+      if (newItem !== "") {
+        const listItem = document.createElement('li');
+        listItem.textContent = newItem;
+        itemList.appendChild(listItem);
+        document.getElementById('new-item').value = ""; // Clear the input field
+      }
+    }
+  </script>
+ <a href="yes.html"><button>Back</button></a>
+</body>
+</html>

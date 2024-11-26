@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Games Ideas</title>
+  <style>
+    body {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 24px;
+      color: white;
+      background-color: #efb0de; /* Dark background */
+      text-align: center;
+      padding: 20px; /* Add space around content */
+    }
+
+    h1 {
+      margin-bottom: 30px; /* More space below heading */
+    }
+
+    #item-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    #item-list li {
+      background-color: rgb(235, 194, 226); /* Yellow background for list items */
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow */
+      position: relative; /* To position the delete button */
+    }
+
+    #item-list li button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #f44336; /* Red */
+      color: white;
+      border: none;
+      border-radius: 50%; /* Round button */
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    #add-item-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #new-item {
+      padding: 10px;
+      margin-right: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      flex-grow: 1;
+      font-size: 18px; /* Slightly larger input font */
+    }
+
+    #add-item-form button {
+      padding: 10px 20px;
+      background-color: #050505; /* Green */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px; /* Larger button font */
+    }
+
+    #add-item-form button:hover {
+      background-color: #3e8e41; /* Darker green on hover */
+    }
+
+    #saved-data {
+      margin-top: 20px;
+      border: 1px solid #f276d7;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f85fab;
+    }
+
+    /* Image Styling */
+    img {
+      max-width: 500px; /* Adjust as needed */ /* Make the image smaller */
+      margin: 10px auto; /* Center images */
+      display: block; /* Ensures images take up full width */
+      border: 2px solid #ccc; /* Add a border */
+      border-radius: 5px; /* Round the corners */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a shadow */
+    }
+
+    /* Styling for the italicized text */
+    h1 i { /* Target the italicized text within h1 */
+      font-style: italic;
+      color: #11040e; /* Purple color */
+    }
+  </style>
+</head>
+</style>
+</head>
+<body>
+
+  <h1>Prize Ideas</h1>
+
+  <img src="candy.jpg" alt="Candy prizes for kiddo">
+  <p>Candy prizes for kiddo</p>
+  <img src="toy.jpg" alt="Toy prizes for kiddo">
+  <p>Toy prizes for kiddo</p>
+  <h1><i>Wala nakong maisip suggest na lang kayo hahahahahaha </i></h1>
+
+  <ul id="item-list">
+    </ul>
+
+  <form id="add-item-form">
+    <input type="text" id="new-item" placeholder="Enter item">
+    <button type="submit">Add</button>
+  </form>
+
+  <div id="saved-data">
+    <h2>Saved Ideas:</h2>
+    <p>No ideas saved yet.</p>
+  </div>
+
+  <script>
+    const itemList = document.getElementById('item-list');
+    const addItemForm = document.getElementById('add-item-form');
+    const savedDataDiv = document.getElementById('saved-data');
+
+    // Load saved ideas from localStorage on page load
+    let savedIdeas = JSON.parse(localStorage.getItem('gameIdeas')) || [];
+
+    function displaySavedIdeas() {
+      savedDataDiv.innerHTML = `
+        <h2>Saved Ideas:</h2>
+        <p>${savedIdeas.length > 0 ? savedIdeas.join('<br>') : 'No ideas saved yet.'}</p>
+      `;
+    }
+
+    // Update localStorage and display saved ideas
+    function saveIdea(newIdea) {
+      savedIdeas.push(newIdea);
+      localStorage.setItem('gameIdeas', JSON.stringify(savedIdeas));
+      displaySavedIdeas();
+    }
+
+    // Function to remove an item from the list and localStorage
+    function removeItem(index) {
+      itemList.removeChild(itemList.children[index]);
+      savedIdeas.splice(index, 1); // Remove from savedIdeas array
+      localStorage.setItem('gameIdeas', JSON.stringify(savedIdeas));
+      displaySavedIdeas();
+    }
+
+    addItemForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const newItemInput = document.getElementById('new-item');
+      const newItem = newItemInput.value.trim();
+
+      if (newItem !== "") {
+        const newListItem = document.createElement('li');
+        newListItem.textContent = newItem;
+
+        // Add a delete button to each list item
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'X';
+        deleteButton.addEventListener('click', () => {
+          removeItem(Array.from(itemList.children).indexOf(newListItem));
+        });
+        newListItem.appendChild(deleteButton);
+
+        itemList.appendChild(newListItem);
+        newItemInput.value = ""; // Clear the input field
+        saveIdea(newItem);
+      }
+    });
+
+    // Display initially saved ideas
+    displaySavedIdeas();
+  </script>
+   <a href="yes.html"><button>Back</button></a>
+
+</body>
+</html>

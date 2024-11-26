@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Outfit Ideas</title>
+  <style>
+    body {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 24px;
+      color: white;
+      background-color: #c771a5; 
+      text-align: center;
+      padding: 20px; /* Add space around content */
+    }
+
+    h1 {
+      margin-bottom: 30px; /* More space below heading */
+    }
+
+    #item-list {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 20px;
+    }
+
+    #item-list li {
+      background-color: #ff0; /* Yellow background for list items */
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow */
+      position: relative; /* To position the delete button */
+    }
+
+    #item-list li button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #f44336; /* Red */
+      color: white;
+      border: none;
+      border-radius: 50%; /* Round button */
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    #add-item-form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #new-item {
+      padding: 10px;
+      margin-right: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      flex-grow: 1;
+      font-size: 18px; 
+    }
+
+    #saved-data {
+      margin-top: 20px;
+      border: 1px solid #ea68b8;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #ce3fa3;
+    }
+
+    /* Video Styling */
+    video {
+      border: 2px solid white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      margin-bottom: 20px;
+    }
+
+    /* Link Styling */
+    a {
+      color: rgb(186, 152, 185); 
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      color: rgba(211, 30, 181, 0.548); 
+    }
+
+    /* Note Styling */
+    #note {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      color: #333;
+    }
+
+    /* Image Styling */
+    .outfit-image {
+      max-width: 150px; 
+      margin: 10px auto;
+      display: block;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Image Upload Styling */
+    #upload-image {
+      display: none; 
+    }
+
+    #upload-button {
+      padding: 10px 20px;
+      background-color: #050505; /* Green */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px; 
+      margin-top: 10px;
+    }
+
+    #upload-button:hover {
+      background-color: #3e8e41; /* Darker green on hover */
+    }
+
+    .image-preview {
+      margin-top: 10px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+      background-color: #f2f2f2;
+    }
+
+    .image-preview img {
+      max-width: 200px; 
+      height: auto;
+    }
+  </style>
+</head>
+</style>
+</head>
+<body>
+
+  <h1>Outfit Ideas</h1>
+
+  <div class="outfit-image-container">
+    <img class="outfit-image" src="satin.jpg" alt="Adult outfit">
+    <p> Adult</p>
+  </div>
+
+  <div class="outfit-image-container">
+    <img class="outfit-image" src="animal.jpg" alt="Kiddo outfit">
+    <p>For kiddo</p>
+  </div>
+
+  <h2> Wala nako idea, Suggest na lang kayo. hahahaha</h2>
+
+  <div class="outfit-image-container">
+    <img class="outfit-image" src="color.png" alt="2025 Color Outfit">
+    <p>2025 Color</p>
+  </div>
+
+  <div id="note">
+    <p>Note: kulay ng family niyo (color-surname) 😊</p>
+  </div>
+
+  <ul id="item-list">
+    </ul>
+
+  <form id="add-item-form">
+    <input type="text" id="new-item" placeholder="Enter outfit idea">
+    <button type="submit">Add</button>
+  </form>
+
+  <div id="saved-data">
+    <h2>Saved Ideas:</h2>
+    <p>No ideas saved yet.</p>
+  </div>
+
+  <!-- Image Upload Section -->
+  <div>
+    <input type="file" id="upload-image" accept="image/*">
+    <button id="upload-button">Upload Image</button>
+    <div class="image-preview"></div>
+  </div>
+
+  <script>
+    const itemList = document.getElementById('item-list');
+    const addItemForm = document.getElementById('add-item-form');
+    const savedDataDiv = document.getElementById('saved-data');
+    const uploadImageInput = document.getElementById('upload-image');
+    const uploadButton = document.getElementById('upload-button');
+    const imagePreview = document.querySelector('.image-preview');
+
+    // Load saved ideas from localStorage on page load
+    let savedIdeas = JSON.parse(localStorage.getItem('outfitIdeas')) || [];
+
+    function displaySavedIdeas() {
+      savedDataDiv.innerHTML = `
+        <h2>Saved Ideas:</h2>
+        <p>${savedIdeas.length > 0 ? savedIdeas.join('<br>') : 'No ideas saved yet.'}</p>
+      `;
+    }
+
+    // Update localStorage and display saved ideas
+    function saveIdea(newIdea) {
+      savedIdeas.push(newIdea);
+      localStorage.setItem('outfitIdeas', JSON.stringify(savedIdeas));
+      displaySavedIdeas();
+    }
+
+    // Function to remove an item from the list and localStorage
+    function removeItem(index) {
+      itemList.removeChild(itemList.children[index]);
+      savedIdeas.splice(index, 1); // Remove from savedIdeas array
+      localStorage.setItem('outfitIdeas', JSON.stringify(savedIdeas));
+      displaySavedIdeas();
+    }
+
+    addItemForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const newItemInput = document.getElementById('new-item');
+      const newItem = newItemInput.value.trim();
+
+      if (newItem !== "") {
+        const newListItem = document.createElement('li');
+        newListItem.textContent = newItem;
+
+        // Add a delete button to each list item
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'X';
+        deleteButton.addEventListener('click', () => {
+          removeItem(Array.from(itemList.children).indexOf(newListItem));
+        });
+        newListItem.appendChild(deleteButton);
+
+        itemList.appendChild(newListItem);
+        newItemInput.value = ""; // Clear the input field
+        saveIdea(newItem);
+      }
+    });
+
+    // Image Upload Functionality
+    uploadButton.addEventListener('click', () => {
+      uploadImageInput.click(); 
+    });
+
+    uploadImageInput.addEventListener('change', (event) => {
+      const file = event.target.files[0]; 
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+          imagePreview.innerHTML = `<img src="${e.target.result}">`; 
+        };
+
+        reader.readAsDataURL(file); 
+      }
+    });
+
+    // Display initially saved ideas
+    displaySavedIdeas();
+  </script>
+
+</body>
+</html>
